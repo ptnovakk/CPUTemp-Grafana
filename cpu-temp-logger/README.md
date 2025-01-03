@@ -5,7 +5,7 @@ This project logs CPU temperature data into an InfluxDB database. It consists of
 ## Project Structure
 
 ```
-CPUTemp-Grafana
+cpu-temp-logger
 ├── src
 │   ├── cput.py          # Main logic for logging CPU temperature data
 │   └── influxdb_client.py # Handles connection to InfluxDB
@@ -18,7 +18,7 @@ CPUTemp-Grafana
 1. **Clone the repository:**
    ```
    git clone <repository-url>
-   cd /path/to/your/directory
+   cd cpu-temp-logger
    ```
 
 2. **Install dependencies:**
