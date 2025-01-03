@@ -23,8 +23,13 @@ def manage_database_size(conn, max_rows=5000):
         conn.commit()
 
 # Connect to SQLite database
-conn = sqlite3.connect('rpi_data.db')
+conn = sqlite3.connect('/home/admin/database/rpi_data.db')
 c = conn.cursor()
+# Create table if it doesn't exist
+c.execute('''CREATE TABLE IF NOT EXISTS cpu_temp (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                temperature REAL)''')
 
 try:
     while True:
