@@ -1,5 +1,6 @@
 import time
-from influxdb import InfluxDBClient
+from influxdb_client import InfluxDBClient, Point, WritePrecision
+import os
 
 # Function to get CPU temperature
 def get_cpu_temp():
@@ -11,18 +12,16 @@ def get_cpu_temp():
 def log_temperature(client):
     while True:
         temp = get_cpu_temp()
-        json_body = [
-            {
-                "measurement": "cpu_temperature",
-                "fields": {
-                    "value": temp
-                }
-            }
-        ]
-        client.write_points(json_body)
+        point = Point("cpu_temperature").field("value", temp)
+        client.write_api(write_options=WritePrecision.NS).write(bucket=influxdb_bucket, org=influxdb_org, record=point)
         print(f"Logged temperature: {temp}°C")
         time.sleep(1)  # Log temperature every second
 
 if __name__ == "__main__":
-    client = InfluxDBClient(host='localhost', port=8086, database='cpu_data')
+    influxdb_url = os.getenv('INFLUXDB_URL')    # Set the environment variables prior to running the script!
+    influxdb_token = os.getenv('INFLUXDB_TOKEN')
+    influxdb_org = os.getenv('INFLUXDB_ORG')
+    influxdb_bucket = os.getenv('INFLUXDB_BUCKET')
+
+    client = InfluxDBClient(url=influxdb_url, token=influxdb_token)
     log_temperature(client)

@@ -28,7 +28,7 @@ CPUTemp-Grafana
    ```
 
 3. **Configure InfluxDB:**
-   Ensure you have an InfluxDB instance running. Update the connection settings in `src/influxdb_client.py` as needed.
+   Ensure you have an InfluxDB instance running. Update the connection settings in `src/influxdb_client.py` as needed. This update ensures that sensitive information is not hardcoded in your code and is instead managed through environment variables.
 
 ## Usage
 
