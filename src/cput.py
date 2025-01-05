@@ -6,7 +6,7 @@ import os
 def get_cpu_temp():
     with open('/sys/class/thermal/thermal_zone0/temp') as f:
         temp = f.read()
-        return float(temp) / 1000.0
+        return round(float(temp) / 1000.0, 1)  # Format to one decimal point
 
 # Function to log temperature data to InfluxDB
 def log_temperature(client):
@@ -28,7 +28,7 @@ def log_temperature(client):
             print(f"Logged temperature: {temp}°C")
         except Exception as e:
             print(f"An error occurred: {e}")
-        time.sleep(1)  # Log temperature every second
+        time.sleep(2.5)  # Log temperature every 2.5 seconds
 
 if __name__ == "__main__":
     influxdb_host = os.getenv('INFLUXDB_HOST', 'localhost')
