@@ -25,9 +25,10 @@ def log_temperature(client):
                 }
             ]
             client.write_points(json_body)
-            print(f"Logged temperature: {temp}°C")
+            # print(f"Logged temperature: {temp}°C")
         except Exception as e:
-            print(f"An error occurred: {e}")
+            # print(f"An error occurred: {e}")
+            pass
         time.sleep(2.5)  # Log temperature every 2.5 seconds
 
 if __name__ == "__main__":
@@ -44,7 +45,7 @@ if __name__ == "__main__":
     try:
         log_temperature(client)
     except KeyboardInterrupt:
-        print("\nScript interrupted by user, exiting gracefully.")
+        pass
     finally:
         # Any cleanup code, like closing connections, goes here if needed
         client.close()
