@@ -4,7 +4,7 @@ import time
 import logging
 
 # Configure logging to write to a file
-logging.basicConfig(filename='/var/log/cputemp.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+logging.basicConfig(filename='/home/admin/cputemp.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # Function to get CPU temperature
 def get_cpu_temp():
