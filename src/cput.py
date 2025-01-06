@@ -1,12 +1,16 @@
+import os
 from influxdb import InfluxDBClient
 import time
-import os
+import logging
+
+# Configure logging to write to a file
+logging.basicConfig(filename='/var/log/cputemp.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # Function to get CPU temperature
 def get_cpu_temp():
     with open('/sys/class/thermal/thermal_zone0/temp') as f:
         temp = f.read()
-        return round(float(temp) / 1000.0, 1)  # Format to one decimal point
+        return float(temp) / 1000.0
 
 # Function to log temperature data to InfluxDB
 def log_temperature(client):
@@ -25,11 +29,10 @@ def log_temperature(client):
                 }
             ]
             client.write_points(json_body)
-            # print(f"Logged temperature: {temp}°C")
+            logging.info(f"Logged temperature: {temp}°C")
         except Exception as e:
-            # print(f"An error occurred: {e}")
-            pass
-        time.sleep(2.5)  # Log temperature every 2.5 seconds
+            logging.error(f"Error logging temperature: {e}")
+        time.sleep(1)
 
 if __name__ == "__main__":
     influxdb_host = os.getenv('INFLUXDB_HOST', 'localhost')
@@ -45,7 +48,7 @@ if __name__ == "__main__":
     try:
         log_temperature(client)
     except KeyboardInterrupt:
+        # No need for print, we're logging to a file
         pass
     finally:
-        # Any cleanup code, like closing connections, goes here if needed
         client.close()
